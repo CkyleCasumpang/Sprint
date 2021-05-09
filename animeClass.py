@@ -1,14 +1,12 @@
 #CLASS CREATION
 class anime:
     def __init__(self, name, atype, genre, rating,
-     episodes, seasonPremiere, dateRelease):
+     episodes):
         self.name = name
         self.type = atype
         self.genre = genre
         self.rating = rating
         self.episodes = episodes
-        self.seasonPremiere = seasonPremiere
-        self.dateRelease = dateRelease
 
     def getName(self):
         return self.name
@@ -40,17 +38,6 @@ class anime:
     def setEpisodes(self,episodes):
         self.episodes = episodes
 
-    def getSeasonPremiere(self):
-        return self.seasonPremiere
-
-    def setSeasonPremiere(self,seasonPremiere):
-        self.seasonPremiere = seasonPremiere
-
-    def getDateRelease(self):
-        return self.dateRelease
-
-    def setDateRelease(self,dateRelease):
-        self.dateRelease = dateRelease
 
     def printInfo(self):
         print (
@@ -59,8 +46,6 @@ class anime:
             ,"Genre: ", self.genre, '\n'
             ,"Rating: ", self.rating, '\n'
             ,"Episodes:", self.episodes, '\n'
-            ,"Season Premiere: ", self.seasonPremiere, '\n'
-            ,"Date Released: ", self.dateRelease, '\n'
         )
 #TESTING
 #anime1 = anime('name', 'atype', 'genre', 8.6, 23, 'Autumn', 2020)
