@@ -1,0 +1,1 @@
+typeList = ["Movie","TV","OVA","Special","Music","ONA"]
