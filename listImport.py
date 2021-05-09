@@ -69,10 +69,12 @@ animeInsert = conn.execute("SELECT name, genre, type, episodes, rating from anim
 
 #loop for easier assignment
 for row in animeInsert:
-    name = row[1]
-    genre = row[2]
-    atype = row[3]
-    episodes = row[4]
+    name = row[0]
+    genre = row[1]
+    atype = row[2]
+    episodes = row[3]
+    rating = row[4]
     aniList.append(anime(name, atype, genre, rating, episodes))
     
-print(aniList[0].name)
+aniListNum = len(aniList)
+print(aniListNum)
