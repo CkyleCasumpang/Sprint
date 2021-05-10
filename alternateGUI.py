@@ -703,7 +703,7 @@ class App:
         #turns the list into a string in one var
         genreFinal = ""
         for genre in genreList[:-1]:
-            genreFinal = genreFinal + genre + ","
+            genreFinal = genreFinal + genre + ", "
         genreFinal = genreFinal + genreList[genreListNum-1]
         #GENRE USED FOR FILTERING
 
@@ -719,33 +719,37 @@ class App:
             for sampleType in aniList:
                 if  sampleType.getType() == self.typeTTK.get():
                     animeListCheckType.append(sampleType)
-        
 
         if self.epTTK.get() == "Any":
             animeListCheckEpisode = animeListCheckType
         else:
             if self.epTTK.get() == "13 and Below":
                 for sampleEpisode in animeListCheckType:
-                    if sampleEpisode.getEpisode() <= 13:
-                        animeListCheckEpisode.append(sampleEpisode)
+                    if sampleEpisode.getEpisodes() == "Unknown":
+                        continue
+                        if int(sampleEpisode.getEpisodes()) <= 13:
+                            animeListCheckEpisode.append(sampleEpisode)
 
             if self.epTTK.get() == "14 up to 26":
                 for sampleEpisode in animeListCheckType:
-                    if sampleEpisode.getEpisode() >= 14 and sampleEpisode.getEpisode() <= 26:
-                        animeListCheckEpisode.append(sampleEpisode)
-            
+                    if sampleEpisode.getEpisodes() == "Unknown":
+                        continue
+                        if int(sampleEpisode.getEpisodes()) >= 14 and int(sampleEpisode.getEpisodes()) <= 26:
+                            animeListCheckEpisode.append(sampleEpisode)
+
             if self.epTTK.get() == "27 and up":
                 for sampleEpisode in animeListCheckType:
-                    if sampleEpisode.getEpisode() >= 27:
-                        animeListCheckEpisode.append(sampleEpisode)
-
+                    if sampleEpisode.getEpisodes() == "Unknown":
+                        continue
+                        if int(sampleEpisode.getEpisodes()) >= 27:
+                            animeListCheckEpisode.append(sampleEpisode)
         for sampleGenre in animeListCheckEpisode:
-            if sampleGenre.getGenre() != genreFinal:
+            if sampleGenre.getGenre() == genreFinal:
                 animeListFinal.append(sampleGenre)
 
         textAcc = ""
         for anime in animeListFinal:
-            text = anime.getName(), " ", anime.getType(), " ", anime.getGenre(), " ", str(anime.getEpisodes()), " ", anime.getRating(), '\n'
+            text = (str(anime.getName()) + " " + str(anime.getType()) + " " + str(anime.getGenre()) + " " + str(anime.getEpisodes()) + " " + str(anime.getRating()) + '\n')
             textAcc += text
             
         self.labelRecommendedAnimeVar.set(textAcc)
