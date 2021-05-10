@@ -1,7 +1,7 @@
-#from animeClass import anime
-#from functions import *
-#import listImport
-#import init
+import animeClass
+from animeClass import *
+import listImport
+from listImport import *
 
 #tkinter for GUI
 import tkinter as tk
@@ -10,570 +10,739 @@ from tkinter import ttk
 from tkinter import *
 
 
-
 class App:
     def __init__(self, root):
         #setting title
         root.title("aniSearch")
         #setting window size
-        width=633
-        height=706
-        screenwidth = root.winfo_screenwidth()
-        screenheight = root.winfo_screenheight()
-        alignstr = '%dx%d+%d+%d' % (width, height, (screenwidth - width) / 2, (screenheight - height) / 2)
-        root.geometry(alignstr)
-        root.config(bg = '#efecec')
+        root.geometry("1300x706")
+        root.configure(bg = '#efecec')
         root.resizable(width=False, height=False)
-        
-        epNum=ttk.Combobox(root)
-        epNum["values"]=["Any", "Below 12", "12 up to 24", "25 and up" ]
-        epNum.current(0)
-        epNum.place(x=15,y=180,width=90,height=30)
 
-        GLabel_352=tk.Label(root)
-        GLabel_352["bg"] = "#e38383"
+        self.epTTK=ttk.Combobox(root)
+        self.epTTK["values"]=["Any", "13 and Below", "14 up to 26", "27 and up" ]
+        self.epTTK.current(0)
+        self.epTTK["justify"] = "center"
+        self.epTTK.place(x=15,y=180,width=90,height=30)
+
+        labelRecommendedAnime = tk.Label(root)
+        ft = tkFont.Font(family='Times',size=14)
+        labelRecommendedAnime["font"] = ft
+        labelRecommendedAnime["text"] = "Please enter your specifications"
+        labelRecommendedAnime["justify"] = "center"
+        labelRecommendedAnime.place(x = 640, y = 50, width = 660, height = 656)
+
+        labelRec=tk.Label(root)
+        labelRec["bg"] = "#e38383"
+        ft = tkFont.Font(family='Times',size=26)
+        labelRec["font"] = ft
+        labelRec["text"] = "Recommended Anime"
+        labelRec["justify"] = "center"
+        labelRec.place(x=640,y=0,width=660,height=50)
+
+        labelSep=tk.Label(root)
+        labelSep["bg"] = "black"
+        labelSep.place(x=635,y=0,width=5,height=706)
+
+        labelEpisodes=tk.Label(root)
+        labelEpisodes["bg"] = "#e38383"
         ft = tkFont.Font(family='Times',size=22)
-        GLabel_352["font"] = ft
-        GLabel_352["fg"] = "#000000"
-        GLabel_352["justify"] = "center"
-        GLabel_352["text"] = "Episodes"
-        GLabel_352.place(x=0,y=140,width=140,height=30)
+        labelEpisodes["font"] = ft
+        labelEpisodes["fg"] = "#000000"
+        labelEpisodes["justify"] = "center"
+        labelEpisodes["text"] = "Episodes"
+        labelEpisodes.place(x=0,y=140,width=140,height=30)
 
-        GLabel_700=tk.Label(root)
-        GLabel_700["bg"] = "#e38383"
+        labelRatings=tk.Label(root)
+        labelRatings["bg"] = "#e38383"
         ft = tkFont.Font(family='Times',size=15)
-        GLabel_700["font"] = ft
-        GLabel_700["fg"] = "#000000"
-        GLabel_700["justify"] = "center"
-        GLabel_700["text"] = "Ratings/Rankings"
-        GLabel_700.place(x=250,y=140,width=140,height=30)
+        labelRatings["font"] = ft
+        labelRatings["fg"] = "#000000"
+        labelRatings["justify"] = "center"
+        labelRatings["text"] = "Ratings/Rankings"
+        labelRatings.place(x=250,y=140,width=140,height=30)
 
-        GLabel_123=tk.Label(root)
-        GLabel_123["bg"] = "#e38383"
+        typeLabel=tk.Label(root)
+        typeLabel["bg"] = "#e38383"
         ft = tkFont.Font(family='Times',size=22)
-        GLabel_123["font"] = ft
-        GLabel_123["fg"] = "#333333"
-        GLabel_123["justify"] = "center"
-        GLabel_123["text"] = "Type"
-        GLabel_123.place(x=490,y=140,width=140,height=30)
+        typeLabel["font"] = ft
+        typeLabel["fg"] = "#333333"
+        typeLabel["justify"] = "center"
+        typeLabel["text"] = "Type"
+        typeLabel.place(x=490,y=140,width=140,height=30)
+
+        self.ratingsTTK=ttk.Combobox(root)
+        self.ratingsTTK["values"]=["No order", "Highest Rated", "Worst Rated"]
+        self.ratingsTTK.current(0)
+        self.ratingsTTK["justify"] = "center"
+        self.ratingsTTK.place(x=275,y=180,width=90,height=30)    
+
+        self.typeTTK=ttk.Combobox(root)
+        self.typeTTK["values"]=["Any","Movie", "TV", "OVA", "Special", "Music", "ONA"]
+        self.typeTTK.current(0)
+        self.typeTTK["justify"] = "center"
+        self.typeTTK.place(x=520,y=180,width=90,height=30) 
 
 
-        ratingsTTK=ttk.Combobox(root)
-        ratingsTTK["values"]=["No order", "Highest Rated", "Worst Rated"]
-        ratingsTTK.current(0)
-        ratingsTTK["justify"] = "center"
-        ratingsTTK.place(x=275,y=180,width=90,height=30)    
-
-        typeTTK=ttk.Combobox(root)
-        typeTTK["values"]=["Any","Movie", "TV", "OVA", "Special", "Music", "ONA"]
-        typeTTK.current(0)
-        typeTTK["justify"] = "center"
-        typeTTK.place(x=520,y=180,width=90,height=30) 
-
-
-        GLabel_378=tk.Label(root)
-        GLabel_378["bg"] = "#e38383"
+        logoLabel=tk.Label(root)
+        logoLabel["bg"] = "#e38383"
         ft = tkFont.Font(family='Times',size=98)
-        GLabel_378["font"] = ft
-        GLabel_378["fg"] = "#333333"
-        GLabel_378["justify"] = "center"
-        GLabel_378["text"] = "AniSearch"
-        GLabel_378.place(x=0,y=0,width=632,height=115)
+        logoLabel["font"] = ft
+        logoLabel["fg"] = "#333333"
+        logoLabel["justify"] = "center"
+        logoLabel["text"] = "AniSearch"
+        logoLabel.place(x=0,y=0,width=635,height=115)
 
-        GLabel_76=tk.Label(root)
-        GLabel_76["bg"] = "#e38383"
+        genreLabel=tk.Label(root)
+        genreLabel["bg"] = "#e38383"
         ft = tkFont.Font(family='Times',size=22)
-        GLabel_76["font"] = ft
-        GLabel_76["fg"] = "#333333"
-        GLabel_76["justify"] = "center"
-        GLabel_76["text"] = "Genre"
-        GLabel_76.place(x=0,y=340,width=630,height=30)
+        genreLabel["font"] = ft
+        genreLabel["fg"] = "#333333"
+        genreLabel["justify"] = "center"
+        genreLabel["text"] = "Genre"
+        genreLabel.place(x=0,y=340,width=635,height=30)
 
-        GCheckBox_364=tk.Checkbutton(root)
-        GCheckBox_364["bg"] = "#e38383"
+        #Int variables
+        #the assign to object
+        self.actionVar = IntVar()
+        action=tk.Checkbutton(root)
+        action["bg"] = "#e38383"
         ft = tkFont.Font(family='Times',size=10)
-        GCheckBox_364["font"] = ft
-        GCheckBox_364["fg"] = "#333333"
-        GCheckBox_364["justify"] = "center"
-        GCheckBox_364["text"] = "Action"
-        GCheckBox_364.place(x=0,y=380,width=70,height=25)
-        GCheckBox_364["offvalue"] = "0"
-        GCheckBox_364["onvalue"] = "1"
+        action["font"] = ft
+        action["fg"] = "#333333"
+        action["justify"] = "center"
+        action["text"] = "Action"
+        action.place(x=0,y=380,width=70,height=25)
+        action["offvalue"] = 0
+        action["onvalue"] = 1
+        action["variable"] = self.actionVar
 
-        GCheckBox_238=tk.Checkbutton(root)
-        GCheckBox_238["bg"] = "#e38383"
+        self.adventureVar = IntVar()
+        adventure=tk.Checkbutton(root)
+        adventure["bg"] = "#e38383"
         ft = tkFont.Font(family='Times',size=10)
-        GCheckBox_238["font"] = ft
-        GCheckBox_238["fg"] = "#333333"
-        GCheckBox_238["justify"] = "center"
-        GCheckBox_238["text"] = "Adventure"
-        GCheckBox_238.place(x=0,y=410,width=70,height=25)
-        GCheckBox_238["offvalue"] = "0"
-        GCheckBox_238["onvalue"] = "1"
+        adventure["font"] = ft
+        adventure["fg"] = "#333333"
+        adventure["justify"] = "center"
+        adventure["text"] = "Adventure"
+        adventure.place(x=0,y=410,width=70,height=25)
+        adventure["offvalue"] = 0
+        adventure["onvalue"] = 1
+        adventure["variable"] = self.adventureVar
 
-        GCheckBox_672=tk.Checkbutton(root)
-        GCheckBox_672["bg"] = "#e38383"
+        self.carsVar = IntVar()
+        cars=tk.Checkbutton(root)
+        cars["bg"] = "#e38383"
         ft = tkFont.Font(family='Times',size=10)
-        GCheckBox_672["font"] = ft
-        GCheckBox_672["fg"] = "#333333"
-        GCheckBox_672["justify"] = "center"
-        GCheckBox_672["text"] = "Cars"
-        GCheckBox_672.place(x=0,y=440,width=70,height=25)
-        GCheckBox_672["offvalue"] = "0"
-        GCheckBox_672["onvalue"] = "1"
+        cars["font"] = ft
+        cars["fg"] = "#333333"
+        cars["justify"] = "center"
+        cars["text"] = "Cars"
+        cars.place(x=0,y=440,width=70,height=25)
+        cars["offvalue"] = 0
+        cars["onvalue"] = 1
+        cars["variable"] = self.carsVar
 
-        GCheckBox_104=tk.Checkbutton(root)
-        GCheckBox_104["bg"] = "#e38383"
+        self.comedyVar = IntVar()
+        comedy=tk.Checkbutton(root)
+        comedy["bg"] = "#e38383"
         ft = tkFont.Font(family='Times',size=10)
-        GCheckBox_104["font"] = ft
-        GCheckBox_104["fg"] = "#333333"
-        GCheckBox_104["justify"] = "center"
-        GCheckBox_104["text"] = "Comedy"
-        GCheckBox_104.place(x=0,y=470,width=70,height=25)
-        GCheckBox_104["offvalue"] = "0"
-        GCheckBox_104["onvalue"] = "1"
+        comedy["font"] = ft
+        comedy["fg"] = "#333333"
+        comedy["justify"] = "center"
+        comedy["text"] = "Comedy"
+        comedy.place(x=0,y=470,width=70,height=25)
+        comedy["offvalue"] = 0
+        comedy["onvalue"] = 1
+        comedy["variable"] = self.comedyVar
 
-        GCheckBox_6=tk.Checkbutton(root)
-        GCheckBox_6["bg"] = "#e38383"
+        self.dementiaVar = IntVar()
+        dementia=tk.Checkbutton(root)
+        dementia["bg"] = "#e38383"
         ft = tkFont.Font(family='Times',size=10)
-        GCheckBox_6["font"] = ft
-        GCheckBox_6["fg"] = "#333333"
-        GCheckBox_6["justify"] = "center"
-        GCheckBox_6["text"] = "Dementia"
-        GCheckBox_6.place(x=0,y=500,width=70,height=25)
-        GCheckBox_6["offvalue"] = "0"
-        GCheckBox_6["onvalue"] = "1"
+        dementia["font"] = ft
+        dementia["fg"] = "#333333"
+        dementia["justify"] = "center"
+        dementia["text"] = "Dementia"
+        dementia.place(x=0,y=500,width=70,height=25)
+        dementia["offvalue"] = 0
+        dementia["onvalue"] = 1
+        dementia["variable"] = self.dementiaVar
 
-        GCheckBox_800=tk.Checkbutton(root)
-        GCheckBox_800["bg"] = "#e38383"
+        self.ecchiVar = IntVar()
+        ecchi=tk.Checkbutton(root)
+        ecchi["bg"] = "#e38383"
         ft = tkFont.Font(family='Times',size=10)
-        GCheckBox_800["font"] = ft
-        GCheckBox_800["fg"] = "#333333"
-        GCheckBox_800["justify"] = "center"
-        GCheckBox_800["text"] = "Ecchi"
-        GCheckBox_800.place(x=0,y=590,width=70,height=25)
-        GCheckBox_800["offvalue"] = "0"
-        GCheckBox_800["onvalue"] = "1"
+        ecchi["font"] = ft
+        ecchi["fg"] = "#333333"
+        ecchi["justify"] = "center"
+        ecchi["text"] = "Ecchi"
+        ecchi.place(x=0,y=590,width=70,height=25)
+        ecchi["offvalue"] = 0
+        ecchi["onvalue"] = 1
+        ecchi["variable"] = self.ecchiVar
 
-        GCheckBox_84=tk.Checkbutton(root)
-        GCheckBox_84["bg"] = "#e38383"
+        self.fantasyVar = IntVar()
+        fantasy=tk.Checkbutton(root)
+        fantasy["bg"] = "#e38383"
         ft = tkFont.Font(family='Times',size=10)
-        GCheckBox_84["font"] = ft
-        GCheckBox_84["fg"] = "#333333"
-        GCheckBox_84["justify"] = "center"
-        GCheckBox_84["text"] = "Fantasy"
-        GCheckBox_84.place(x=100,y=380,width=70,height=25)
-        GCheckBox_84["offvalue"] = "0"
-        GCheckBox_84["onvalue"] = "1"
+        fantasy["font"] = ft
+        fantasy["fg"] = "#333333"
+        fantasy["justify"] = "center"
+        fantasy["text"] = "Fantasy"
+        fantasy.place(x=100,y=380,width=70,height=25)
+        fantasy["offvalue"] = 0
+        fantasy["onvalue"] = 1
+        fantasy["variable"] = self.fantasyVar
 
-        GCheckBox_46=tk.Checkbutton(root)
-        GCheckBox_46["bg"] = "#e38383"
+        self.gameVar = IntVar()
+        game=tk.Checkbutton(root)
+        game["bg"] = "#e38383"
         ft = tkFont.Font(family='Times',size=10)
-        GCheckBox_46["font"] = ft
-        GCheckBox_46["fg"] = "#333333"
-        GCheckBox_46["justify"] = "center"
-        GCheckBox_46["text"] = "Game"
-        GCheckBox_46.place(x=100,y=410,width=70,height=25)
-        GCheckBox_46["offvalue"] = "0"
-        GCheckBox_46["onvalue"] = "1"
+        game["font"] = ft
+        game["fg"] = "#333333"
+        game["justify"] = "center"
+        game["text"] = "Game"
+        game.place(x=100,y=410,width=70,height=25)
+        game["offvalue"] = 0
+        game["onvalue"] = 1
+        game["variable"] = self.gameVar
 
-        GCheckBox_988=tk.Checkbutton(root)
-        GCheckBox_988["bg"] = "#e38383"
+        self.psychologicalVar = IntVar()
+        psychological=tk.Checkbutton(root)
+        psychological["bg"] = "#e38383"
         ft = tkFont.Font(family='Times',size=7)
-        GCheckBox_988["font"] = ft
-        GCheckBox_988["fg"] = "#333333"
-        GCheckBox_988["justify"] = "center"
-        GCheckBox_988["text"] = "Psychological"
-        GCheckBox_988.place(x=320,y=440,width=70,height=25)
-        GCheckBox_988["offvalue"] = "0"
-        GCheckBox_988["onvalue"] = "1"
+        psychological["font"] = ft
+        psychological["fg"] = "#333333"
+        psychological["justify"] = "center"
+        psychological["text"] = "Psychological"
+        psychological.place(x=320,y=440,width=70,height=25)
+        psychological["offvalue"] = 0
+        psychological["onvalue"] = 1
+        psychological["variable"] = self.psychologicalVar
 
-        GCheckBox_388=tk.Checkbutton(root)
-        GCheckBox_388["bg"] = "#e38383"
+        self.romanceVar = IntVar()
+        romance=tk.Checkbutton(root)
+        romance["bg"] = "#e38383"
         ft = tkFont.Font(family='Times',size=10)
-        GCheckBox_388["font"] = ft
-        GCheckBox_388["fg"] = "#333333"
-        GCheckBox_388["justify"] = "center"
-        GCheckBox_388["text"] = "Romance"
-        GCheckBox_388.place(x=320,y=470,width=70,height=25)
-        GCheckBox_388["offvalue"] = "0"
-        GCheckBox_388["onvalue"] = "1"
+        romance["font"] = ft
+        romance["fg"] = "#333333"
+        romance["justify"] = "center"
+        romance["text"] = "Romance"
+        romance.place(x=320,y=470,width=70,height=25)
+        romance["offvalue"] = 0
+        romance["onvalue"] = 1
+        romance["variable"] = self.romanceVar
 
-        GCheckBox_957=tk.Checkbutton(root)
-        GCheckBox_957["bg"] = "#e38383"
+        self.samuraiVar = IntVar()
+        samurai=tk.Checkbutton(root)
+        samurai["bg"] = "#e38383"
         ft = tkFont.Font(family='Times',size=10)
-        GCheckBox_957["font"] = ft
-        GCheckBox_957["fg"] = "#333333"
-        GCheckBox_957["justify"] = "center"
-        GCheckBox_957["text"] = "Samurai"
-        GCheckBox_957.place(x=320,y=500,width=70,height=25)
-        GCheckBox_957["offvalue"] = "0"
-        GCheckBox_957["onvalue"] = "1"
+        samurai["font"] = ft
+        samurai["fg"] = "#333333"
+        samurai["justify"] = "center"
+        samurai["text"] = "Samurai"
+        samurai.place(x=320,y=500,width=70,height=25)
+        samurai["offvalue"] = 0
+        samurai["onvalue"] = 1
+        samurai["variable"] = self.samuraiVar
 
-        GCheckBox_581=tk.Checkbutton(root)
-        GCheckBox_581["bg"] = "#e38383"
+        self.schoolVar = IntVar()
+        school=tk.Checkbutton(root)
+        school["bg"] = "#e38383"
         ft = tkFont.Font(family='Times',size=10)
-        GCheckBox_581["font"] = ft
-        GCheckBox_581["fg"] = "#333333"
-        GCheckBox_581["justify"] = "center"
-        GCheckBox_581["text"] = "School"
-        GCheckBox_581.place(x=320,y=530,width=70,height=25)
-        GCheckBox_581["offvalue"] = "0"
-        GCheckBox_581["onvalue"] = "1"
+        school["font"] = ft
+        school["fg"] = "#333333"
+        school["justify"] = "center"
+        school["text"] = "School"
+        school.place(x=320,y=530,width=70,height=25)
+        school["offvalue"] = 0
+        school["onvalue"] = 1
+        school["variable"] = self.schoolVar
 
-        GCheckBox_158=tk.Checkbutton(root)
-        GCheckBox_158["bg"] = "#e38383"
+        self.haremVar = IntVar()
+        harem=tk.Checkbutton(root)
+        harem["bg"] = "#e38383"
         ft = tkFont.Font(family='Times',size=10)
-        GCheckBox_158["font"] = ft
-        GCheckBox_158["fg"] = "#333333"
-        GCheckBox_158["justify"] = "center"
-        GCheckBox_158["text"] = "Harem"
-        GCheckBox_158.place(x=100,y=440,width=70,height=25)
-        GCheckBox_158["offvalue"] = "0"
-        GCheckBox_158["onvalue"] = "1"
+        harem["font"] = ft
+        harem["fg"] = "#333333"
+        harem["justify"] = "center"
+        harem["text"] = "Harem"
+        harem.place(x=100,y=440,width=70,height=25)
+        harem["offvalue"] = 0
+        harem["onvalue"] = 1
+        harem["variable"] = self.haremVar
 
-        GCheckBox_314=tk.Checkbutton(root)
-        GCheckBox_314["bg"] = "#e38383"
+        self.hentaiVar = IntVar()
+        hentai=tk.Checkbutton(root)
+        hentai["bg"] = "#e38383"
         ft = tkFont.Font(family='Times',size=10)
-        GCheckBox_314["font"] = ft
-        GCheckBox_314["fg"] = "#333333"
-        GCheckBox_314["justify"] = "center"
-        GCheckBox_314["text"] = "Hentai"
-        GCheckBox_314.place(x=100,y=470,width=70,height=25)
-        GCheckBox_314["offvalue"] = "0"
-        GCheckBox_314["onvalue"] = "1"
+        hentai["font"] = ft
+        hentai["fg"] = "#333333"
+        hentai["justify"] = "center"
+        hentai["text"] = "Hentai"
+        hentai.place(x=100,y=470,width=70,height=25)
+        hentai["offvalue"] = 0
+        hentai["onvalue"] = 1
+        hentai["variable"] = self.hentaiVar
 
-        GCheckBox_827=tk.Checkbutton(root)
-        GCheckBox_827["bg"] = "#e38383"
+        self.historicalVar = IntVar()
+        historical=tk.Checkbutton(root)
+        historical["bg"] = "#e38383"
         ft = tkFont.Font(family='Times',size=10)
-        GCheckBox_827["font"] = ft
-        GCheckBox_827["fg"] = "#333333"
-        GCheckBox_827["justify"] = "center"
-        GCheckBox_827["text"] = "Historical"
-        GCheckBox_827.place(x=100,y=500,width=70,height=25)
-        GCheckBox_827["offvalue"] = "0"
-        GCheckBox_827["onvalue"] = "1"
+        historical["font"] = ft
+        historical["fg"] = "#333333"
+        historical["justify"] = "center"
+        historical["text"] = "Historical"
+        historical.place(x=100,y=500,width=70,height=25)
+        historical["offvalue"] = 0
+        historical["onvalue"] = 1
+        historical["variable"] = self.historicalVar
 
-        GCheckBox_999=tk.Checkbutton(root)
-        GCheckBox_999["bg"] = "#e38383"
+        self.horrorVar = IntVar()
+        horror=tk.Checkbutton(root)
+        horror["bg"] = "#e38383"
         ft = tkFont.Font(family='Times',size=10)
-        GCheckBox_999["font"] = ft
-        GCheckBox_999["fg"] = "#333333"
-        GCheckBox_999["justify"] = "center"
-        GCheckBox_999["text"] = "Horror"
-        GCheckBox_999.place(x=100,y=530,width=70,height=25)
-        GCheckBox_999["offvalue"] = "0"
-        GCheckBox_999["onvalue"] = "1"
+        horror["font"] = ft
+        horror["fg"] = "#333333"
+        horror["justify"] = "center"
+        horror["text"] = "Horror"
+        horror.place(x=100,y=530,width=70,height=25)
+        horror["offvalue"] = 0
+        horror["onvalue"] = 1
+        horror["variable"] = self.horrorVar
 
-        GCheckBox_152=tk.Checkbutton(root)
-        GCheckBox_152["bg"] = "#e38383"
+        self.joseiVar = IntVar()
+        josei=tk.Checkbutton(root)
+        josei["bg"] = "#e38383"
         ft = tkFont.Font(family='Times',size=10)
-        GCheckBox_152["font"] = ft
-        GCheckBox_152["fg"] = "#333333"
-        GCheckBox_152["justify"] = "center"
-        GCheckBox_152["text"] = "Josei"
-        GCheckBox_152.place(x=100,y=560,width=70,height=25)
-        GCheckBox_152["offvalue"] = "0"
-        GCheckBox_152["onvalue"] = "1"
+        josei["font"] = ft
+        josei["fg"] = "#333333"
+        josei["justify"] = "center"
+        josei["text"] = "Josei"
+        josei.place(x=100,y=560,width=70,height=25)
+        josei["offvalue"] = 0
+        josei["onvalue"] = 1
+        josei["variable"] = self.joseiVar
 
-        GCheckBox_551=tk.Checkbutton(root)
-        GCheckBox_551["bg"] = "#e38383"
+        self.kidsVar = IntVar()
+        kids=tk.Checkbutton(root)
+        kids["bg"] = "#e38383"
         ft = tkFont.Font(family='Times',size=10)
-        GCheckBox_551["font"] = ft
-        GCheckBox_551["fg"] = "#333333"
-        GCheckBox_551["justify"] = "center"
-        GCheckBox_551["text"] = "Kids"
-        GCheckBox_551.place(x=210,y=380,width=70,height=25)
-        GCheckBox_551["offvalue"] = "0"
-        GCheckBox_551["onvalue"] = "1"
+        kids["font"] = ft
+        kids["fg"] = "#333333"
+        kids["justify"] = "center"
+        kids["text"] = "Kids"
+        kids.place(x=210,y=380,width=70,height=25)
+        kids["offvalue"] = 0
+        kids["onvalue"] = 1
+        kids["variable"] = self.kidsVar
 
-        GCheckBox_584=tk.Checkbutton(root)
-        GCheckBox_584["bg"] = "#e38383"
+        self.demonsVar = IntVar()
+        demons=tk.Checkbutton(root)
+        demons["bg"] = "#e38383"
         ft = tkFont.Font(family='Times',size=10)
-        GCheckBox_584["font"] = ft
-        GCheckBox_584["fg"] = "#333333"
-        GCheckBox_584["justify"] = "center"
-        GCheckBox_584["text"] = "Demons"
-        GCheckBox_584.place(x=0,y=530,width=70,height=25)
-        GCheckBox_584["offvalue"] = "0"
-        GCheckBox_584["onvalue"] = "1"
+        demons["font"] = ft
+        demons["fg"] = "#333333"
+        demons["justify"] = "center"
+        demons["text"] = "Demons"
+        demons.place(x=0,y=530,width=70,height=25)
+        demons["offvalue"] = 0
+        demons["onvalue"] = 1
+        demons["variable"] = self.demonsVar
 
-        GCheckBox_147=tk.Checkbutton(root)
-        GCheckBox_147["bg"] = "#e38383"
+        self.mechaVar = IntVar()
+        mecha=tk.Checkbutton(root)
+        mecha["bg"] = "#e38383"
         ft = tkFont.Font(family='Times',size=10)
-        GCheckBox_147["font"] = ft
-        GCheckBox_147["fg"] = "#333333"
-        GCheckBox_147["justify"] = "center"
-        GCheckBox_147["text"] = "Mecha"
-        GCheckBox_147.place(x=210,y=470,width=70,height=25)
-        GCheckBox_147["offvalue"] = "0"
-        GCheckBox_147["onvalue"] = "1"
+        mecha["font"] = ft
+        mecha["fg"] = "#333333"
+        mecha["justify"] = "center"
+        mecha["text"] = "Mecha"
+        mecha.place(x=210,y=470,width=70,height=25)
+        mecha["offvalue"] = 0
+        mecha["onvalue"] = 1
+        mecha["variable"] = self.mechaVar
 
-        GCheckBox_61=tk.Checkbutton(root)
-        GCheckBox_61["bg"] = "#e38383"
+        self.militaryVar = IntVar(0)
+        military=tk.Checkbutton(root)
+        military["bg"] = "#e38383"
         ft = tkFont.Font(family='Times',size=10)
-        GCheckBox_61["font"] = ft
-        GCheckBox_61["fg"] = "#333333"
-        GCheckBox_61["justify"] = "center"
-        GCheckBox_61["text"] = "Military"
-        GCheckBox_61.place(x=210,y=500,width=70,height=25)
-        GCheckBox_61["offvalue"] = "0"
-        GCheckBox_61["onvalue"] = "1"
+        military["font"] = ft
+        military["fg"] = "#333333"
+        military["justify"] = "center"
+        military["text"] = "Military"
+        military.place(x=210,y=500,width=70,height=25)
+        military["offvalue"] = 0
+        military["onvalue"] = 1
+        military["variable"] = self.militaryVar
 
-        GCheckBox_861=tk.Checkbutton(root)
-        GCheckBox_861["bg"] = "#e38383"
+        self.martialArtsVar = IntVar()
+        martialArts=tk.Checkbutton(root)
+        martialArts["bg"] = "#e38383"
         ft = tkFont.Font(family='Times',size=8)
-        GCheckBox_861["font"] = ft
-        GCheckBox_861["fg"] = "#333333"
-        GCheckBox_861["justify"] = "center"
-        GCheckBox_861["text"] = "Martial Arts"
-        GCheckBox_861.place(x=210,y=440,width=70,height=25)
-        GCheckBox_861["offvalue"] = "0"
-        GCheckBox_861["onvalue"] = "1"
+        martialArts["font"] = ft
+        martialArts["fg"] = "#333333"
+        martialArts["justify"] = "center"
+        martialArts["text"] = "Martial Arts"
+        martialArts.place(x=210,y=440,width=70,height=25)
+        martialArts["offvalue"] = 0
+        martialArts["onvalue"] = 1
+        martialArts["variable"] = self.martialArtsVar
 
-        GCheckBox_820=tk.Checkbutton(root)
-        GCheckBox_820["bg"] = "#e38383"
+        self.mysteryVar = IntVar()
+        mystery=tk.Checkbutton(root)
+        mystery["bg"] = "#e38383"
         ft = tkFont.Font(family='Times',size=10)
-        GCheckBox_820["font"] = ft
-        GCheckBox_820["fg"] = "#333333"
-        GCheckBox_820["justify"] = "center"
-        GCheckBox_820["text"] = "Mystery"
-        GCheckBox_820.place(x=210,y=560,width=70,height=25)
-        GCheckBox_820["offvalue"] = "0"
-        GCheckBox_820["onvalue"] = "1"
+        mystery["font"] = ft
+        mystery["fg"] = "#333333"
+        mystery["justify"] = "center"
+        mystery["text"] = "Mystery"
+        mystery.place(x=210,y=560,width=70,height=25)
+        mystery["offvalue"] = 0
+        mystery["onvalue"] = 1
+        mystery["variable"] = self.mysteryVar
 
-        GCheckBox_849=tk.Checkbutton(root)
-        GCheckBox_849["bg"] = "#e38383"
+        self.parodyVar = IntVar()
+        parody=tk.Checkbutton(root)
+        parody["bg"] = "#e38383"
         ft = tkFont.Font(family='Times',size=10)
-        GCheckBox_849["font"] = ft
-        GCheckBox_849["fg"] = "#333333"
-        GCheckBox_849["justify"] = "center"
-        GCheckBox_849["text"] = "Parody"
-        GCheckBox_849.place(x=320,y=380,width=70,height=25)
-        GCheckBox_849["offvalue"] = "0"
-        GCheckBox_849["onvalue"] = "1"
+        parody["font"] = ft
+        parody["fg"] = "#333333"
+        parody["justify"] = "center"
+        parody["text"] = "Parody"
+        parody.place(x=320,y=380,width=70,height=25)
+        parody["offvalue"] = 0
+        parody["onvalue"] = 1
+        parody["variable"] = self.parodyVar
 
-        GCheckBox_899=tk.Checkbutton(root)
-        GCheckBox_899["bg"] = "#e38383"
+        self.policeVar = IntVar()
+        police=tk.Checkbutton(root)
+        police["bg"] = "#e38383"
         ft = tkFont.Font(family='Times',size=10)
-        GCheckBox_899["font"] = ft
-        GCheckBox_899["fg"] = "#333333"
-        GCheckBox_899["justify"] = "center"
-        GCheckBox_899["text"] = "Police"
-        GCheckBox_899.place(x=320,y=410,width=70,height=25)
-        GCheckBox_899["offvalue"] = "0"
-        GCheckBox_899["onvalue"] = "1"
+        police["font"] = ft
+        police["fg"] = "#333333"
+        police["justify"] = "center"
+        police["text"] = "Police"
+        police.place(x=320,y=410,width=70,height=25)
+        police["offvalue"] = 0
+        police["onvalue"] = 1
+        police["variable"] = self.policeVar
 
-        GCheckBox_498=tk.Checkbutton(root)
-        GCheckBox_498["bg"] = "#e38383"
+        self.magicVar = IntVar()
+        magic=tk.Checkbutton(root)
+        magic["bg"] = "#e38383"
         ft = tkFont.Font(family='Times',size=10)
-        GCheckBox_498["font"] = ft
-        GCheckBox_498["fg"] = "#333333"
-        GCheckBox_498["justify"] = "center"
-        GCheckBox_498["text"] = "Magic"
-        GCheckBox_498.place(x=210,y=410,width=70,height=25)
-        GCheckBox_498["offvalue"] = "0"
-        GCheckBox_498["onvalue"] = "1"
+        magic["font"] = ft
+        magic["fg"] = "#333333"
+        magic["justify"] = "center"
+        magic["text"] = "Magic"
+        magic.place(x=210,y=410,width=70,height=25)
+        magic["offvalue"] = 0
+        magic["onvalue"] = 1
+        magic["variable"] = self.magicVar
 
-        GCheckBox_329=tk.Checkbutton(root)
-        GCheckBox_329["bg"] = "#e38383"
+        self.musicVar = IntVar()
+        music=tk.Checkbutton(root)
+        music["bg"] = "#e38383"
         ft = tkFont.Font(family='Times',size=10)
-        GCheckBox_329["font"] = ft
-        GCheckBox_329["fg"] = "#333333"
-        GCheckBox_329["justify"] = "center"
-        GCheckBox_329["text"] = "Music"
-        GCheckBox_329.place(x=210,y=530,width=70,height=25)
-        GCheckBox_329["offvalue"] = "0"
-        GCheckBox_329["onvalue"] = "1"
+        music["font"] = ft
+        music["fg"] = "#333333"
+        music["justify"] = "center"
+        music["text"] = "Music"
+        music.place(x=210,y=530,width=70,height=25)
+        music["offvalue"] = 0
+        music["onvalue"] = 1
+        music["variable"] = self.musicVar
 
-        GCheckBox_93=tk.Checkbutton(root)
-        GCheckBox_93["bg"] = "#e38383"
+        self.seinenVar = IntVar()
+        seinen=tk.Checkbutton(root)
+        seinen["bg"] = "#e38383"
         ft = tkFont.Font(family='Times',size=10)
-        GCheckBox_93["font"] = ft
-        GCheckBox_93["fg"] = "#333333"
-        GCheckBox_93["justify"] = "center"
-        GCheckBox_93["text"] = "Seinen"
-        GCheckBox_93.place(x=440,y=380,width=70,height=25)
-        GCheckBox_93["offvalue"] = "0"
-        GCheckBox_93["onvalue"] = "1"
+        seinen["font"] = ft
+        seinen["fg"] = "#333333"
+        seinen["justify"] = "center"
+        seinen["text"] = "Seinen"
+        seinen.place(x=440,y=380,width=70,height=25)
+        seinen["offvalue"] = 0
+        seinen["onvalue"] = 1
+        seinen["variable"] = self.seinenVar
 
-        GCheckBox_357=tk.Checkbutton(root)
-        GCheckBox_357["bg"] = "#e38383"
+        self.shoujoVar = IntVar()
+        shoujo=tk.Checkbutton(root)
+        shoujo["bg"] = "#e38383"
         ft = tkFont.Font(family='Times',size=10)
-        GCheckBox_357["font"] = ft
-        GCheckBox_357["fg"] = "#333333"
-        GCheckBox_357["justify"] = "center"
-        GCheckBox_357["text"] = "Shoujo"
-        GCheckBox_357.place(x=440,y=410,width=70,height=25)
-        GCheckBox_357["offvalue"] = "0"
-        GCheckBox_357["onvalue"] = "1"
+        shoujo["font"] = ft
+        shoujo["fg"] = "#333333"
+        shoujo["justify"] = "center"
+        shoujo["text"] = "Shoujo"
+        shoujo.place(x=440,y=410,width=70,height=25)
+        shoujo["offvalue"] = 0
+        shoujo["onvalue"] = 1
+        shoujo["variable"] = self.shoujoVar
 
-        GCheckBox_630=tk.Checkbutton(root)
-        GCheckBox_630["bg"] = "#e38383"
+        self.shoujoAiVar = IntVar()
+        shoujoAi=tk.Checkbutton(root)
+        shoujoAi["bg"] = "#e38383"
         ft = tkFont.Font(family='Times',size=10)
-        GCheckBox_630["font"] = ft
-        GCheckBox_630["fg"] = "#333333"
-        GCheckBox_630["justify"] = "center"
-        GCheckBox_630["text"] = "Shoujo-ai"
-        GCheckBox_630.place(x=440,y=440,width=70,height=25)
-        GCheckBox_630["offvalue"] = "0"
-        GCheckBox_630["onvalue"] = "1"
+        shoujoAi["font"] = ft
+        shoujoAi["fg"] = "#333333"
+        shoujoAi["justify"] = "center"
+        shoujoAi["text"] = "Shoujo-ai"
+        shoujoAi.place(x=440,y=440,width=70,height=25)
+        shoujoAi["offvalue"] = 0
+        shoujoAi["onvalue"] = 1
+        shoujoAi["variable"] = self.shoujoAiVar
 
-        GCheckBox_774=tk.Checkbutton(root)
-        GCheckBox_774["bg"] = "#e38383"
+        self.shounenVar = IntVar()
+        shounen=tk.Checkbutton(root)
+        shounen["bg"] = "#e38383"
         ft = tkFont.Font(family='Times',size=10)
-        GCheckBox_774["font"] = ft
-        GCheckBox_774["fg"] = "#333333"
-        GCheckBox_774["justify"] = "center"
-        GCheckBox_774["text"] = "Shounen"
-        GCheckBox_774.place(x=440,y=470,width=70,height=25)
-        GCheckBox_774["offvalue"] = "0"
-        GCheckBox_774["onvalue"] = "1"
+        shounen["font"] = ft
+        shounen["fg"] = "#333333"
+        shounen["justify"] = "center"
+        shounen["text"] = "Shounen"
+        shounen.place(x=440,y=470,width=70,height=25)
+        shounen["offvalue"] = 0
+        shounen["onvalue"] = 1
+        shounen["variable"] = self.shounenVar
 
-        GCheckBox_567=tk.Checkbutton(root)
-        GCheckBox_567["bg"] = "#e38383"
+        self.shounenAiVar = IntVar()
+        shounenAi=tk.Checkbutton(root)
+        shounenAi["bg"] = "#e38383"
         ft = tkFont.Font(family='Times',size=8)
-        GCheckBox_567["font"] = ft
-        GCheckBox_567["fg"] = "#333333"
-        GCheckBox_567["justify"] = "center"
-        GCheckBox_567["text"] = "Shounen-ai"
-        GCheckBox_567.place(x=440,y=500,width=70,height=25)
-        GCheckBox_567["offvalue"] = "0"
-        GCheckBox_567["onvalue"] = "1"
+        shounenAi["font"] = ft
+        shounenAi["fg"] = "#333333"
+        shounenAi["justify"] = "center"
+        shounenAi["text"] = "Shounen-ai"
+        shounenAi.place(x=440,y=500,width=70,height=25)
+        shounenAi["offvalue"] = 0
+        shounenAi["onvalue"] = 1
+        shounenAi["variable"] = self.shounenAiVar
 
-        GCheckBox_574=tk.Checkbutton(root)
-        GCheckBox_574["bg"] = "#e38383"
+        self.sliceOfLifeVar = IntVar()
+        sliceOfLife=tk.Checkbutton(root)
+        sliceOfLife["bg"] = "#e38383"
         ft = tkFont.Font(family='Times',size=8)
-        GCheckBox_574["font"] = ft
-        GCheckBox_574["fg"] = "#333333"
-        GCheckBox_574["justify"] = "center"
-        GCheckBox_574["text"] = "Slice of Life"
-        GCheckBox_574.place(x=440,y=530,width=70,height=25)
-        GCheckBox_574["offvalue"] = "0"
-        GCheckBox_574["onvalue"] = "1"
+        sliceOfLife["font"] = ft
+        sliceOfLife["fg"] = "#333333"
+        sliceOfLife["justify"] = "center"
+        sliceOfLife["text"] = "Slice of Life"
+        sliceOfLife.place(x=440,y=530,width=70,height=25)
+        sliceOfLife["offvalue"] = 0
+        sliceOfLife["onvalue"] = 1
+        sliceOfLife["variable"] = self.sliceOfLifeVar
 
-        GCheckBox_859=tk.Checkbutton(root)
-        GCheckBox_859["bg"] = "#e38383"
+        self.spaceVar = IntVar()
+        space=tk.Checkbutton(root)
+        space["bg"] = "#e38383"
         ft = tkFont.Font(family='Times',size=10)
-        GCheckBox_859["font"] = ft
-        GCheckBox_859["fg"] = "#333333"
-        GCheckBox_859["justify"] = "center"
-        GCheckBox_859["text"] = "Space"
-        GCheckBox_859.place(x=440,y=560,width=70,height=25)
-        GCheckBox_859["offvalue"] = "0"
-        GCheckBox_859["onvalue"] = "1"
+        space["font"] = ft
+        space["fg"] = "#333333"
+        space["justify"] = "center"
+        space["text"] = "Space"
+        space.place(x=440,y=560,width=70,height=25)
+        space["offvalue"] = 0
+        space["onvalue"] = 1
+        space["variable"] = self.spaceVar
 
-        GCheckBox_752=tk.Checkbutton(root)
-        GCheckBox_752["bg"] = "#e38383"
+        self.sportsVar = IntVar()
+        sports=tk.Checkbutton(root)
+        sports["bg"] = "#e38383"
         ft = tkFont.Font(family='Times',size=10)
-        GCheckBox_752["font"] = ft
-        GCheckBox_752["fg"] = "#333333"
-        GCheckBox_752["justify"] = "center"
-        GCheckBox_752["text"] = "Sports"
-        GCheckBox_752.place(x=560,y=380,width=70,height=25)
-        GCheckBox_752["offvalue"] = "0"
-        GCheckBox_752["onvalue"] = "1"
+        sports["font"] = ft
+        sports["fg"] = "#333333"
+        sports["justify"] = "center"
+        sports["text"] = "Sports"
+        sports.place(x=560,y=380,width=70,height=25)
+        sports["offvalue"] = 0
+        sports["onvalue"] = 1
+        sports["variable"] = self.sportsVar
 
-        GCheckBox_287=tk.Checkbutton(root)
-        GCheckBox_287["bg"] = "#e38383"
+        self.superpowerVar = IntVar()
+        superpower=tk.Checkbutton(root)
+        superpower["bg"] = "#e38383"
         ft = tkFont.Font(family='Times',size=8)
-        GCheckBox_287["font"] = ft
-        GCheckBox_287["fg"] = "#333333"
-        GCheckBox_287["justify"] = "center"
-        GCheckBox_287["text"] = "Superpower"
-        GCheckBox_287.place(x=560,y=410,width=70,height=25)
-        GCheckBox_287["offvalue"] = "0"
-        GCheckBox_287["onvalue"] = "1"
+        superpower["font"] = ft
+        superpower["fg"] = "#333333"
+        superpower["justify"] = "center"
+        superpower["text"] = "Superpower"
+        superpower.place(x=560,y=410,width=70,height=25)
+        superpower["offvalue"] = 0
+        superpower["onvalue"] = 1
+        superpower["variable"] = self.superpowerVar
 
-        GCheckBox_283=tk.Checkbutton(root)
-        GCheckBox_283["bg"] = "#e38383"
+        self.supernaturalVar = IntVar()
+        supernatural=tk.Checkbutton(root)
+        supernatural["bg"] = "#e38383"
         ft = tkFont.Font(family='Times',size=7)
-        GCheckBox_283["font"] = ft
-        GCheckBox_283["fg"] = "#333333"
-        GCheckBox_283["justify"] = "center"
-        GCheckBox_283["text"] = "Supernatural"
-        GCheckBox_283.place(x=560,y=440,width=70,height=25)
-        GCheckBox_283["offvalue"] = "0"
-        GCheckBox_283["onvalue"] = "1"
+        supernatural["font"] = ft
+        supernatural["fg"] = "#333333"
+        supernatural["justify"] = "center"
+        supernatural["text"] = "Supernatural"
+        supernatural.place(x=560,y=440,width=70,height=25)
+        supernatural["offvalue"] = 0
+        supernatural["onvalue"] = 1
+        supernatural["variable"] = self.supernaturalVar
 
-        GCheckBox_918=tk.Checkbutton(root)
-        GCheckBox_918["bg"] = "#e38383"
+        self.thrillerVar = IntVar()
+        thriller=tk.Checkbutton(root)
+        thriller["bg"] = "#e38383"
         ft = tkFont.Font(family='Times',size=10)
-        GCheckBox_918["font"] = ft
-        GCheckBox_918["fg"] = "#333333"
-        GCheckBox_918["justify"] = "center"
-        GCheckBox_918["text"] = "Thriller"
-        GCheckBox_918.place(x=560,y=470,width=70,height=25)
-        GCheckBox_918["offvalue"] = "0"
-        GCheckBox_918["onvalue"] = "1"
+        thriller["font"] = ft
+        thriller["fg"] = "#333333"
+        thriller["justify"] = "center"
+        thriller["text"] = "Thriller"
+        thriller.place(x=560,y=470,width=70,height=25)
+        thriller["offvalue"] = 0
+        thriller["onvalue"] = 1
+        thriller["variable"] = self.thrillerVar
 
-        GCheckBox_912=tk.Checkbutton(root)
-        GCheckBox_912["bg"] = "#e38383"
+        self.vampireVar = IntVar()
+        vampire=tk.Checkbutton(root)
+        vampire["bg"] = "#e38383"
         ft = tkFont.Font(family='Times',size=10)
-        GCheckBox_912["font"] = ft
-        GCheckBox_912["fg"] = "#333333"
-        GCheckBox_912["justify"] = "center"
-        GCheckBox_912["text"] = "Vampire"
-        GCheckBox_912.place(x=560,y=500,width=70,height=25)
-        GCheckBox_912["offvalue"] = "0"
-        GCheckBox_912["onvalue"] = "1"
+        vampire["font"] = ft
+        vampire["fg"] = "#333333"
+        vampire["justify"] = "center"
+        vampire["text"] = "Vampire"
+        vampire.place(x=560,y=500,width=70,height=25)
+        vampire["offvalue"] = 0
+        vampire["onvalue"] = 1
+        vampire["variable"] = self.vampireVar
 
-        GCheckBox_801=tk.Checkbutton(root)
-        GCheckBox_801["bg"] = "#e38383"
+        self.yaoiVar = IntVar()
+        yaoi=tk.Checkbutton(root)
+        yaoi["bg"] = "#e38383"
         ft = tkFont.Font(family='Times',size=10)
-        GCheckBox_801["font"] = ft
-        GCheckBox_801["fg"] = "#333333"
-        GCheckBox_801["justify"] = "center"
-        GCheckBox_801["text"] = "Yaoi"
-        GCheckBox_801.place(x=560,y=530,width=70,height=25)
-        GCheckBox_801["offvalue"] = "0"
-        GCheckBox_801["onvalue"] = "1"
+        yaoi["font"] = ft
+        yaoi["fg"] = "#333333"
+        yaoi["justify"] = "center"
+        yaoi["text"] = "Yaoi"
+        yaoi.place(x=560,y=530,width=70,height=25)
+        yaoi["offvalue"] = 0
+        yaoi["onvalue"] = 1
+        yaoi["variable"] = self.yaoiVar
 
-        GCheckBox_343=tk.Checkbutton(root)
-        GCheckBox_343["bg"] = "#e38383"
+        self.sciFiVar = IntVar()
+        sciFi=tk.Checkbutton(root)
+        sciFi["bg"] = "#e38383"
         ft = tkFont.Font(family='Times',size=10)
-        GCheckBox_343["font"] = ft
-        GCheckBox_343["fg"] = "#333333"
-        GCheckBox_343["justify"] = "center"
-        GCheckBox_343["text"] = "Sci-Fi"
-        GCheckBox_343.place(x=320,y=560,width=70,height=25)
-        GCheckBox_343["offvalue"] = "0"
-        GCheckBox_343["onvalue"] = "1"
+        sciFi["font"] = ft
+        sciFi["fg"] = "#333333"
+        sciFi["justify"] = "center"
+        sciFi["text"] = "Sci-Fi"
+        sciFi.place(x=320,y=560,width=70,height=25)
+        sciFi["offvalue"] = 0
+        sciFi["onvalue"] = 1
+        sciFi["variable"] = self.sciFiVar
 
-        GCheckBox_127=tk.Checkbutton(root)
-        GCheckBox_127["bg"] = "#e38383"
+        self.yuriVar = IntVar()
+        yuri=tk.Checkbutton(root)
+        yuri["bg"] = "#e38383"
         ft = tkFont.Font(family='Times',size=10)
-        GCheckBox_127["font"] = ft
-        GCheckBox_127["fg"] = "#333333"
-        GCheckBox_127["justify"] = "center"
-        GCheckBox_127["text"] = "Yuri"
-        GCheckBox_127.place(x=560,y=560,width=70,height=25)
-        GCheckBox_127["offvalue"] = "0"
-        GCheckBox_127["onvalue"] = "1"
+        yuri["font"] = ft
+        yuri["fg"] = "#333333"
+        yuri["justify"] = "center"
+        yuri["text"] = "Yuri"
+        yuri.place(x=560,y=560,width=70,height=25)
+        yuri["offvalue"] = 0
+        yuri["onvalue"] = 1
+        yuri["variable"] = self.yuriVar
 
-        GCheckBox_967=tk.Checkbutton(root)
-        GCheckBox_967["bg"] = "#e38383"
+        self.dramaVar = IntVar()
+        drama=tk.Checkbutton(root)
+        drama["bg"] = "#e38383"
         ft = tkFont.Font(family='Times',size=10)
-        GCheckBox_967["font"] = ft
-        GCheckBox_967["fg"] = "#333333"
-        GCheckBox_967["justify"] = "center"
-        GCheckBox_967["text"] = "Drama"
-        GCheckBox_967.place(x=0,y=560,width=70,height=25)
-        GCheckBox_967["offvalue"] = "0"
-        GCheckBox_967["onvalue"] = "1"
+        drama["font"] = ft
+        drama["fg"] = "#333333"
+        drama["justify"] = "center"
+        drama["text"] = "Drama"
+        drama.place(x=0,y=560,width=70,height=25)
+        drama["offvalue"] = 0
+        drama["onvalue"] = 1
+        drama["variable"] = self.dramaVar
 
-        GButton_473=tk.Button(root)
-        GButton_473["bg"] = "#e38383"
+        searchButton=tk.Button(root)
+        searchButton["bg"] = "#e38383"
         ft = tkFont.Font(family='Times',size=10)
-        GButton_473["font"] = ft
-        GButton_473["fg"] = "#000000"
-        GButton_473["justify"] = "center"
-        GButton_473["text"] = "Search"
-        GButton_473.place(x=220,y=620,width=183,height=60)
-        GButton_473["command"] = self.GButton_473_command
+        searchButton["font"] = ft
+        searchButton["fg"] = "#000000"
+        searchButton["justify"] = "center"
+        searchButton["text"] = "Search"
+        searchButton.place(x=220,y=620,width=183,height=60)
+        searchButton["command"] = self.searchButton_command
+    #variables
+    #list for the checkboxes' vars of genre
+        self.genreVarListTTK = [self.actionVar, self.adventureVar, self.carsVar, self.comedyVar, self.dementiaVar, self.demonsVar, self.dramaVar, self.ecchiVar, self.fantasyVar,
+        self.gameVar, self.haremVar, self.hentaiVar, self.historicalVar, self.horrorVar, self.joseiVar, self.kidsVar, self.magicVar, self.martialArtsVar, self.mechaVar, 
+        self.militaryVar, self.musicVar, self.mysteryVar, self.parodyVar, self.policeVar, self.psychologicalVar, self.romanceVar, self.samuraiVar, self.schoolVar, 
+        self.sciFiVar, self.seinenVar, self.shoujoVar, self.shoujoAiVar, self.shounenVar, self.shounenAiVar, self.sliceOfLifeVar, self.spaceVar, self.sportsVar, 
+        self.superpowerVar, self.supernaturalVar, self.thrillerVar, self.vampireVar, self.yaoiVar, self.yuriVar]
 
-    def GButton_473_command(self):
-        print("test")
+        self.genreListTTK = [action, adventure, cars, comedy, dementia, demons, drama, ecchi, fantasy, game, harem, hentai, historical, horror, josei, 
+        kids, magic, martialArts, mecha, military, music, mystery, parody, police, psychological, romance, samurai, school, sciFi, seinen, shoujo, 
+        shoujoAi, shounen, shounenAi, sliceOfLife, space, sports, superpower, supernatural, thriller, vampire, yaoi, yuri]
+
+
+    
+    #functions
+    def searchButton_command(self):
+        genreList = []
+        counter = 0
+        #checks if the checkboxes are checked
+        for self.genreTTK in self.genreVarListTTK:
+            if self.genreTTK.get() == 1:
+                genreList.append(self.genreListTTK[counter].cget("text"))
+            counter += 1
+
+        #assigns the amount of genres to this var
+        genreListNum = len(genreList)
+
+        #turns the list into a string in one var
+        genreFinal = ""
+        for genre in genreList[:-1]:
+            genreFinal = genreFinal + genre + ","
+        genreFinal = genreFinal + genreList[genreListNum-1]
+        #GENRE USED FOR FILTERING
+
+        #Filter Type first
+        animeListCheckType = []
+        animeListCheckGenre = []
+        animeListCheckEpisode = []
+        animeListFinal = []
+
+        if self.typeTTK.get() == "Any":
+            animeListCheckType = aniList
+        else:
+            for sampleType in aniListObjs:
+                if  sampleType.getType() == self.typeTTK.get():
+                    animeListCheckType.append(sampleType)
+        
+
+        if self.epTTK.get() == "Any":
+            animeListCheckEpisode = animeListCheckType
+        else:
+            if self.epTTK.get() == "13 and Below":
+                for sampleEpisode in animeListCheckGenre:
+                    if sampleEpisode.getEpisode() <= 13:
+                        animeListCheckEpisode.append(sampleEpisode)
+
+            if self.epTTK.get() == "14 up to 26":
+                for sampleEpisode in animeListCheckGenre:
+                    if sampleEpisode.getEpisode() >= 14 and sampleEpisode.getEpisode() <= 26:
+                        animeListCheckEpisode.append(sampleEpisode)
+            
+            if self.epTTK.get() == "27 and up":
+                for sampleEpisode in animeListCheckGenre:
+                    if sampleEpisode.getEpisode() >= 27:
+                        animeListCheckEpisode.append(sampleEpisode)
+
+        for sampleGenre in animeListCheckEpisode:
+            if sampleGenre.getGenre() != genreFinal:
+                animeListFinal.append(sampleGenre)
+
+
 
 if __name__ == "__main__":
     root = tk.Tk()
