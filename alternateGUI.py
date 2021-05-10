@@ -716,7 +716,7 @@ class App:
         if self.typeTTK.get() == "Any":
             animeListCheckType = aniList
         else:
-            for sampleType in aniListObjs:
+            for sampleType in aniList:
                 if  sampleType.getType() == self.typeTTK.get():
                     animeListCheckType.append(sampleType)
         
@@ -725,17 +725,17 @@ class App:
             animeListCheckEpisode = animeListCheckType
         else:
             if self.epTTK.get() == "13 and Below":
-                for sampleEpisode in animeListCheckGenre:
+                for sampleEpisode in animeListCheckType:
                     if sampleEpisode.getEpisode() <= 13:
                         animeListCheckEpisode.append(sampleEpisode)
 
             if self.epTTK.get() == "14 up to 26":
-                for sampleEpisode in animeListCheckGenre:
+                for sampleEpisode in animeListCheckType:
                     if sampleEpisode.getEpisode() >= 14 and sampleEpisode.getEpisode() <= 26:
                         animeListCheckEpisode.append(sampleEpisode)
             
             if self.epTTK.get() == "27 and up":
-                for sampleEpisode in animeListCheckGenre:
+                for sampleEpisode in animeListCheckType:
                     if sampleEpisode.getEpisode() >= 27:
                         animeListCheckEpisode.append(sampleEpisode)
 
@@ -745,14 +745,11 @@ class App:
 
         textAcc = ""
         for anime in animeListFinal:
-            text = anime.getName(), " ", anime.getType(), " ", anime.getGenre(), " ", anime.getEpisodes(), " ", anime.getRating(), '\n'
+            text = anime.getName(), " ", anime.getType(), " ", anime.getGenre(), " ", str(anime.getEpisodes()), " ", anime.getRating(), '\n'
             textAcc += text
             
         self.labelRecommendedAnimeVar.set(textAcc)
         
-
-
-
 if __name__ == "__main__":
     root = tk.Tk()
     app = App(root)
