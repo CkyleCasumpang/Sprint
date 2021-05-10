@@ -25,12 +25,13 @@ class App:
         self.epTTK["justify"] = "center"
         self.epTTK.place(x=15,y=180,width=90,height=30)
 
-        labelRecommendedAnime = tk.Label(root)
+        self.labelRecommendedAnimeVar = StringVar()
+        self.labelRecommendedAnime = tk.Label(root, textvariable = self.labelRecommendedAnimeVar)
         ft = tkFont.Font(family='Times',size=14)
-        labelRecommendedAnime["font"] = ft
-        labelRecommendedAnime["text"] = "Please enter your specifications"
-        labelRecommendedAnime["justify"] = "center"
-        labelRecommendedAnime.place(x = 640, y = 50, width = 660, height = 656)
+        self.labelRecommendedAnime["font"] = ft
+        self.labelRecommendedAnime["justify"] = "center"
+        self.labelRecommendedAnime.place(x = 640, y = 50, width = 660, height = 656)
+
 
         labelRec=tk.Label(root)
         labelRec["bg"] = "#e38383"
@@ -741,6 +742,14 @@ class App:
         for sampleGenre in animeListCheckEpisode:
             if sampleGenre.getGenre() != genreFinal:
                 animeListFinal.append(sampleGenre)
+
+        textAcc = ""
+        for anime in animeListFinal:
+            text = anime.getName(), " ", anime.getType(), " ", anime.getGenre(), " ", anime.getEpisodes(), " ", anime.getRating(), '\n'
+            textAcc += text
+            
+        self.labelRecommendedAnimeVar.set(textAcc)
+        
 
 
 
