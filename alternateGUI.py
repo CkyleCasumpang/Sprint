@@ -712,8 +712,11 @@ class App:
         animeListCheckGenre = []
         animeListCheckEpisode = []
         animeListCheckRating = []
+        animeListGenre = []
+        animeListNoneType = []
         animeListFinal = []
 
+###FOR TYPES
         if self.typeTTK.get() == "Any":
             animeListCheckType = aniList
         else:
@@ -721,6 +724,8 @@ class App:
                 if  sampleType.getType() == self.typeTTK.get():
                     animeListCheckType.append(sampleType)
 
+
+###FOR EPISODES
         if self.epTTK.get() == "Any":
             animeListCheckEpisode = animeListCheckType
         else:
@@ -748,27 +753,31 @@ class App:
                         if int(sampleEpisode.getEpisodes()) >= 27:
                             animeListCheckEpisode.append(sampleEpisode)
                         
-                            
+###FOR GENRES                       
         for sampleGenre in animeListCheckEpisode:
             if sampleGenre.getGenre() == genreFinal:
-                animeListFinal.append(sampleGenre)
+                animeListGenre.append(sampleGenre)
 
+###FOR RATINGS
         if self.ratingsTTK.get() == "No order":
-                animeListFinal = animeListFinal
+                animeListFinal = animeListGenre
         else:
             if self.ratingsTTK.get() == "Highest Rated":
-                for sampleRating in animeListFinal:
+                for sampleRating in animeListGenre:
                     if sampleRating.getRating() is None:
-                        continue
+                        animeListNoneType.append(sampleRating)
                     else:
-                        animeListFinal.sort(key=lambda x: x.rating, reverse=True)
+                        animeListFinal.append(sampleRating)
+                animeListFinal.sort(key=lambda x: x.rating, reverse=True)
+                animeListFinal += animeListNoneType
                 
-            if self.ratingsTTK.get() == "Worst Rated":
-                for sampleRating in animeListFinal:
+            elif self.ratingsTTK.get() == "Worst Rated":
+                for sampleRating in animeListGenre:
                     if sampleRating.getRating() is None:
-                        continue
+                        animeListNoneType.append(sampleRating)
                     else:
-                        animeListFinal.sort(key=lambda x: x.rating)
+                animeListGenre.sort(key=lambda x: x.rating)
+                animeListFinal += animeListNoneType
 
         textAcc = ""
         for anime in animeListFinal:
