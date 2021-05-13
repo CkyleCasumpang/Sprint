@@ -2,6 +2,7 @@ import animeClass
 from animeClass import *
 import listImport
 from listImport import *
+from operator import attrgetter
 
 #tkinter for GUI
 import tkinter as tk
@@ -764,19 +765,20 @@ class App:
         else:
             if self.ratingsTTK.get() == "Highest Rated":
                 for sampleRating in animeListGenre:
-                    if sampleRating.getRating() is None:
+                    if sampleRating.rating is None:
                         animeListNoneType.append(sampleRating)
                     else:
                         animeListFinal.append(sampleRating)
-                animeListFinal.sort(key=lambda x: x.rating, reverse=True)
+                animeListFinal.sort(key=attrgetter('rating'), reverse=True)
                 animeListFinal += animeListNoneType
                 
             elif self.ratingsTTK.get() == "Worst Rated":
                 for sampleRating in animeListGenre:
-                    if sampleRating.getRating() is None:
+                    if sampleRating.rating is None:
                         animeListNoneType.append(sampleRating)
                     else:
-                animeListGenre.sort(key=lambda x: x.rating)
+                        animeListFinal.append(sampleRating)
+                animeListFinal.sort(key=attrgetter('rating'))
                 animeListFinal += animeListNoneType
 
         textAcc = ""
